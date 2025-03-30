@@ -1,0 +1,14 @@
+這是一個使用 nextjs 搭建的網站搭配 supabase 服務
+一個集成的訊息整合服務，會將 line、messenger、ig messenger 集合管理
+
+在 supabase 的 tables 中
+有一個 n8n_chat_histories 表格
+它紀錄所有的訊息，有三個欄位 id、session_id、message
+message 是 jsonb 裡面是 { type, content }
+type 分 ai 和 human
+
+現在在首頁，我想設計一個訊息管理
+左側是 chat room 分類，根據 session_id 列出
+選擇好會將該 sesssion 的訊息都列出
+並根據 type 左右排版
+下方會有一個輸入框，可以新增訊息
