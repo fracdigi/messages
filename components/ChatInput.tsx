@@ -23,6 +23,17 @@ export default function ChatInput({ sessionId, onNewSession }: ChatInputProps) {
       try {
         setSending(true);
         
+        // In static export mode, we don't connect to Supabase
+        if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
+          // Static export fallback
+          setTimeout(() => {
+            alert('This is a static demo version. In the hosted version, messages would be sent to the API.');
+            setMessage('');
+            setSending(false);
+          }, 1000);
+          return;
+        }
+        
         // Insert the human message
         const { error } = await supabase
           .from('n8n_chat_histories')
@@ -73,6 +84,25 @@ export default function ChatInput({ sessionId, onNewSession }: ChatInputProps) {
       
       // Create formatted session ID with platform prefix
       const formattedSessionId = `${selectedPlatform}_${newSessionId.trim()}`;
+      
+      // In static export mode, we don't connect to Supabase
+      if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
+        // Static export fallback
+        setTimeout(() => {
+          alert('This is a static demo version. In the hosted version, a new chat session would be created.');
+          
+          // Tell parent about the new session anyway for demo purposes
+          onNewSession(formattedSessionId);
+          
+          // Reset form state
+          setNewSessionId('');
+          setSelectedPlatform('');
+          setIsCreatingSession(false);
+          setMessage('');
+          setSending(false);
+        }, 1000);
+        return;
+      }
       
       // Insert the human message
       const { error } = await supabase

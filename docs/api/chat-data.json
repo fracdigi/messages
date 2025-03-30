@@ -1,0 +1,5 @@
+{
+  "success": true,
+  "staticData": true,
+  "message": "This is static data for the exported site. API routes are not available in static exports."
+}
